@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+</head>
+<body>
+  <h1>강아지</h1>
+  <button id="append-dog">댕댕아</button>
+  <div class="dogs">
+
+  </div>
+  <h1>고양이</h1>
+  <button id="append-cat">고양이</button>
+  <div class="cats">
+
+  </div>
+  <div class="animals">
+
+  </div>
+  <!-- axios github에서 가져온 script를 붙여넣는다. -->
+  <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+  <script>
+    const dogBtn = document.querySelector('#append-dog')
+    dogBtn.addEventListener('click', ()=>{
+      getDogImage()
+    })
+    
+    const catBtn = document.querySelector('#append-cat')
+    catBtn.addEventListener('click', ()=>{
+      getCatImage()
+    })
+
+    const getDogImage = () => {
+      // dog.ceo api의 주소를 복사
+      const dogUrl = 'https://dog.ceo/api/breeds/image/random'
+      axios.get(dogUrl)
+        .then((response)=>{
+          console.log(response)
+          const dogImage = response.data.message
+          const imageTag = document.createElement('img')
+          imageTag.src = dogImage
+          imageTag.style = 'width:300px'
+          document.querySelector('.dogs').appendChild(imageTag)
+        })
+        .catch((error)=>{
+          console.log(error)
+        })
+    
+    }
+    const getCatImage = () => {
+      const catUrl = 'https://api.thecatapi.com/v1/images/search'
+      axios.get(catUrl)
+        .then((response)=>{
+          console.log(response)
+          // 고양이는 리스트접근을 해야한다.
+          const catImage = response.data[0].url
+          const imageTag = document.createElement('img')
+          imageTag.src = catImage
+          imageTag.style = 'width:300px'
+          document.querySelector('.cats').appendChild(imageTag)
+        })
+        .catch((error)=>{
+          console.log(error)
+        })
+    }
+  </script>
+</body>
+</html>
